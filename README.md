@@ -203,7 +203,9 @@ const closeModal = (modalContainer) => {
 ### 특수 효과
 
 #### 패럴렉스 효과
-**언제**: `mo-large-full` 모달 타입에서만 활성화
+**언제**: **처음부터** `mo-large-full` 타입으로 설정된 모달에서만 활성화
+**중요**: 콘텐츠 오버플로우로 인해 동적으로 풀사이즈로 변경된 경우에는 패럴렉스 효과가 적용되지 않음
+
 **어떻게**:
 ```css
 #main-content.parallax-effect {
@@ -214,8 +216,18 @@ const closeModal = (modalContainer) => {
 
 **적용 조건**:
 ```javascript
+// 원본 타입(originalType)이 mo-large-full인 경우에만 패럴렉스 적용
+const originalType = modalContainer.dataset.originalType;
 if (originalType === 'mo-large-full') {
     mainContent.classList.add('parallax-effect');
+}
+```
+
+**해제 조건**:
+```javascript
+// 모달 닫을 때 원본 타입이 mo-large-full인 경우에만 패럴렉스 해제
+if (modalContainer.dataset.originalType === 'mo-large-full') {
+    mainContent.classList.remove('parallax-effect');
 }
 ```
 
@@ -286,9 +298,12 @@ graph TD
     E --> F{콘텐츠 초과?}
     F -->|Yes| G[풀사이즈로 변경]
     F -->|No| H[원래 레이아웃 유지]
-    G --> I[패럴렉스 효과 적용]
+    G --> I{원본 타입이<br/>mo-large-full?}
     H --> I
-    I --> J[열기 애니메이션 실행]
+    I -->|Yes| J[패럴렉스 효과 적용]
+    I -->|No| K[패럴렉스 효과 없음]
+    J --> L[열기 애니메이션 실행]
+    K --> L
 ```
 
 ### 모달 닫기 시퀀스
@@ -298,13 +313,16 @@ graph TD
     B -->|오버레이 클릭| C[closeModal 호출]
     B -->|버튼 클릭| C
     B -->|ESC 키| C
-    C --> D[패럴렉스 효과 제거]
-    D --> E[닫기 애니메이션 시작]
-    E --> F[오버레이 딜레이 적용]
-    F --> G[애니메이션 완료 대기]
-    G --> H[모달 숨김]
-    H --> I[레이아웃 원상복구]
-    I --> J[body 스크롤 복원]
+    C --> D{원본 타입이<br/>mo-large-full?}
+    D -->|Yes| E[패럴렉스 효과 제거]
+    D -->|No| F[패럴렉스 효과 없음]
+    E --> G[닫기 애니메이션 시작]
+    F --> G
+    G --> H[오버레이 딜레이 적용]
+    H --> I[애니메이션 완료 대기]
+    I --> J[모달 숨김]
+    J --> K[레이아웃 원상복구]
+    K --> L[body 스크롤 복원]
 ```
 
 ---
@@ -322,7 +340,8 @@ graph TD
 
 3. **전체 화면 모달**
    - `mo-large-full`에서 우측에서 슬라이드 인
-   - 배경 패럴렉스 효과로 깊이감 연출
+   - **처음부터** `mo-large-full` 타입인 경우에만 배경 패럴렉스 효과로 깊이감 연출
+   - 동적으로 풀사이즈 변경된 경우는 패럴렉스 효과 없음
 
 ### PC 모달 특화 기능
 1. **센터 정렬**
