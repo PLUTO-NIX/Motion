@@ -1,0 +1,316 @@
+/*
+ * =================================================================
+ * 기본 스타일 설정
+ * =================================================================
+ */
+body {
+    font-family: 'Inter', sans-serif;
+}
+
+/*
+ * =================================================================
+ * CSS 변수 정의
+ * =================================================================
+ */
+:root {
+    /* 타이밍 값 */
+    --motion-timing-0: 0ms;
+
+    --motion-timing-50: 50ms;
+    --motion-timing-100: 100ms;
+    --motion-timing-150: 150ms;
+    --motion-timing-200: 200ms;
+
+    --motion-timing-250: 250ms;
+    --motion-timing-300: 300ms;
+    --motion-timing-350: 350ms;
+    --motion-timing-400: 400ms;
+
+    --motion-timing-450: 450ms;
+    --motion-timing-500: 500ms;
+    --motion-timing-550: 550ms;
+    --motion-timing-600: 600ms;
+
+    --motion-timing-700: 700ms;
+    --motion-timing-800: 800ms;
+    --motion-timing-900: 900ms;
+    --motion-timing-1000: 1000ms;
+
+    /* 이징 함수 */
+    --motion-easing-linear: cubic-bezier(0, 0, 1, 1);
+    --motion-easing-easeIn: cubic-bezier(1, 0, 0.8, 1);
+    --motion-easing-easeOut: cubic-bezier(0.2, 0, 0, 1);
+    --motion-easing-easeInAndOut: cubic-bezier(0.6, 0, 0.15, 1);
+
+    /* 배경색 */
+    --modal-overlay-default: rgba(0, 0, 0, 0.5);
+}
+
+/*
+ * =================================================================
+ * 애니메이션 Keyframes
+ * =================================================================
+ */
+
+/* 오버레이 애니메이션 */
+@keyframes modal-overlay-open {
+    from {
+        opacity: 0;
+    }
+}
+
+@keyframes modal-overlay-close {
+    to {
+        opacity: 0;
+    }
+}
+
+/* 투명도 애니메이션 */
+@keyframes modal-opacity-open {
+    form {
+        opacity: 0;
+    }
+}
+
+@keyframes modal-opacity-close {
+    to {
+        opacity: 0;
+    }
+}
+
+/* 모바일 모달 애니메이션 */
+@keyframes modal-mo-small-center-open {
+    from {
+        transform: translateY(50%);
+    }
+}
+
+@keyframes modal-mo-small-center-close {
+    to {
+        transform: translateY(50%);
+    }
+}
+
+@keyframes modal-mo-small-bottom-open {
+    from {
+        transform: translateY(100%);
+    }
+}
+
+@keyframes modal-mo-small-bottom-close {
+    to {
+        transform: translateY(100%);
+    }
+}
+
+@keyframes modal-mo-medium-bottom-open {
+    from {
+        transform: translateY(100%);
+    }
+}
+
+@keyframes modal-mo-medium-bottom-close {
+    to {
+        transform: translateY(100%);
+    }
+}
+
+@keyframes modal-mo-large-full-open {
+    from {
+        transform: translateX(100%);
+    }
+}
+
+@keyframes modal-mo-large-full-close {
+    to {
+        transform: translateX(100%);
+    }
+}
+
+/* PC 모달 애니메이션 */
+@keyframes modal-pc-small-center-open {
+    from {
+        transform: translateY(50%);
+    }
+}
+
+@keyframes modal-pc-small-center-close {
+    to {
+        transform: translateY(50%);
+    }
+}
+
+@keyframes modal-pc-medium-center-open {
+    from {
+        transform: translateY(30%);
+    }
+}
+
+@keyframes modal-pc-medium-center-close {
+    to {
+        transform: translateY(30%);
+    }
+}
+
+@keyframes modal-pc-large-center-open {
+    from {
+        transform: translateY(15%);
+    }
+}
+
+@keyframes modal-pc-large-center-close {
+    to {
+        transform: translateY(15%);
+    }
+}
+
+/*
+ * =================================================================
+ * 패럴렉스 효과
+ * =================================================================
+ */
+#main-content {
+    /* 메인 컨텐츠 트랜지션 효과 */
+    transition: transform var(--motion-timing-600) var(--motion-easing-easeOut)
+}
+
+#main-content.parallax-effect {
+    /* 모달 열릴 때 배경 이동 및 어두워지는 효과 */
+    transform: translateX(-20%);
+}
+
+/*
+ * =================================================================
+ * 오버레이 스타일
+ * =================================================================
+ */
+.modal-overlay {
+    background-color: var(--modal-overlay-default);
+}
+
+/*
+ * =================================================================
+ * 애니메이션 클래스
+ * =================================================================
+ */
+
+/* GPU 가속 최적화 */
+.modal-body,
+.modal-overlay {
+    will-change: transform, opacity;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+}
+
+/* 애니메이션이 끝난 후 will-change 해제 */
+.modal-container.hidden .modal-body,
+.modal-container.hidden .modal-overlay {
+    will-change: auto;
+}
+
+/* 기본 애니메이션 설정 */
+.animated {
+    animation-fill-mode: backwards;
+}
+
+/* 오버레이 애니메이션 클래스 */
+.modal-overlay-open {
+    animation: modal-overlay-open var(--motion-timing-150) forwards;
+}
+
+.modal-overlay-close {
+    animation: modal-overlay-close var(--motion-timing-200) forwards;
+}
+
+.modal-overlay-close-dynamic {
+    /* CSS 변수를 활용한 동적 딜레이 적용 */
+    animation: modal-overlay-close var(--motion-timing-150) var(--motion-easing-linear) var(--overlay-delay, 0ms) both;
+}
+
+/* 모바일 모달 클래스 */
+.modal-mo-small-center-open {
+    animation: modal-mo-small-center-open var(--motion-timing-300) var(--motion-easing-easeOut),
+        modal-opacity-open var(--motion-timing-100) var(--motion-easing-linear);
+}
+
+.modal-mo-small-center-close {
+    animation: modal-mo-small-center-close var(--motion-timing-200) var(--motion-easing-easeIn) 0ms forwards,
+        modal-opacity-close var(--motion-timing-100) var(--motion-easing-linear) var(--motion-timing-100) both;
+}
+
+.modal-mo-small-bottom-open {
+    animation: modal-mo-small-bottom-open var(--motion-timing-300) var(--motion-easing-easeOut),
+        modal-opacity-open var(--motion-timing-100) var(--motion-easing-linear);
+}
+
+.modal-mo-small-bottom-close {
+    animation: modal-mo-small-bottom-close var(--motion-timing-200) var(--motion-easing-easeIn) 0ms forwards,
+        modal-opacity-close var(--motion-timing-100) var(--motion-easing-linear) var(--motion-timing-100) both;
+}
+
+.modal-mo-medium-bottom-open {
+    animation: modal-mo-medium-bottom-open var(--motion-timing-400) var(--motion-easing-easeOut),
+        modal-opacity-open var(--motion-timing-100) var(--motion-easing-linear);
+}
+
+.modal-mo-medium-bottom-close {
+    animation: modal-mo-medium-bottom-close var(--motion-timing-300) var(--motion-easing-easeIn) 0ms forwards,
+        modal-opacity-close var(--motion-timing-100) var(--motion-easing-linear) var(--motion-timing-200) both;
+}
+
+.modal-mo-large-full-open {
+    animation: modal-mo-large-full-open var(--motion-timing-500) var(--motion-easing-easeOut),
+        modal-opacity-open var(--motion-timing-100) var(--motion-easing-linear);
+}
+
+.modal-mo-large-full-close {
+    animation: modal-mo-large-full-close var(--motion-timing-400) var(--motion-easing-easeIn) 0ms forwards,
+        modal-opacity-close var(--motion-timing-100) var(--motion-easing-linear) var(--motion-timing-300) both;
+}
+
+/* PC 모달 클래스 */
+.modal-pc-small-center-open {
+    animation: modal-pc-small-center-open var(--motion-timing-300) var(--motion-easing-easeOut),
+        modal-opacity-open var(--motion-timing-100) var(--motion-easing-linear);
+}
+
+.modal-pc-small-center-close {
+    animation:
+        modal-pc-small-center-close var(--motion-timing-200) var(--motion-easing-easeIn) 0ms forwards,
+        modal-opacity-close var(--motion-timing-100) var(--motion-easing-linear) var(--motion-timing-100) both;
+}
+
+.modal-pc-medium-center-open {
+    animation: modal-pc-medium-center-open var(--motion-timing-400) var(--motion-easing-easeOut),
+        modal-opacity-open var(--motion-timing-100) var(--motion-easing-linear);
+}
+
+.modal-pc-medium-center-close {
+    animation:
+        modal-pc-medium-center-close var(--motion-timing-300) var(--motion-easing-easeIn) 0ms forwards,
+        modal-opacity-close var(--motion-timing-100) var(--motion-easing-linear) var(--motion-timing-200) both;
+}
+
+
+.modal-pc-large-center-open {
+    animation: modal-pc-large-center-open var(--motion-timing-500) var(--motion-easing-easeOut),
+        modal-opacity-open var(--motion-timing-100) var(--motion-easing-linear);
+}
+
+.modal-pc-large-center-close {
+    animation:
+        modal-pc-large-center-close var(--motion-timing-400) var(--motion-easing-easeIn) 0ms forwards,
+        modal-opacity-close var(--motion-timing-100) var(--motion-easing-linear) var(--motion-timing-300) both;
+}
+
+
+/* .modal-pc-large-center-open {
+    animation: modal-pc-large-center-open var(--motion-timing-450) var(--motion-easing-easeOut),
+        modal-opacity-open var(--motion-timing-100) var(--motion-easing-linear);
+}
+
+.modal-pc-large-center-close {
+    animation:
+        modal-pc-large-center-close var(--motion-timing-300) var(--motion-easing-easeIn) 0ms forwards,
+        modal-opacity-close var(--motion-timing-100) var(--motion-easing-linear) var(--motion-timing-200) both;
+} */
